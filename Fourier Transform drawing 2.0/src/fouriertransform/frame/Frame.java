@@ -34,10 +34,10 @@ public class Frame extends JPanel implements ActionListener, ChangeListener {
 	JFrame frame;
 
 	public Frame() {
-		frame = new JFrame("Fourier Transform drawing");
+		frame = new JFrame("Fourier Transform drawing 2.0");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.setSize(1240, 680);
+		frame.setSize(1265, 670);
 		frame.setVisible(true);
 		frame.add(this);
 
