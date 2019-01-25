@@ -46,29 +46,31 @@ public class Cycle {
 	}
 
 	public void drawCycle(Graphics2D g2D, double xVal) {
-		g2D.setColor(Color.BLACK);
-		double radius = amp * 300; // 100 = height
-		g2D.setColor(new Color(0, 0, 0, 100));
-		g2D.drawOval((int) offsetX - (int) radius, (int) offsetY - (int) radius, (int) radius * 2, (int) radius * 2);
-		double angle = (xVal * freq) + phase + rotation;
-		double x = radius * Math.cos(angle);
-		double y = radius * Math.sin(angle);
-		g2D.setColor(Color.BLACK);
-		g2D.drawLine((int) offsetX, (int) offsetY, (int) (x + offsetX), (int) (y + offsetY));
+		Cycle cycle = this;
+		double posX = offsetX;
+		double posY = offsetY;
+		do {
+			g2D.setColor(Color.BLACK);
+			double radius = cycle.amp * 300;
+			g2D.setColor(new Color(0, 0, 0, 100));
+			g2D.drawOval((int) posX - (int) radius, (int) posY - (int) radius, (int) radius * 2, (int) radius * 2);
+			double angle = (xVal * cycle.freq) + cycle.phase + cycle.rotation;
+			double x = radius * Math.cos(angle);
+			double y = radius * Math.sin(angle);
+			g2D.setColor(Color.BLACK);
+			g2D.drawLine((int) posX, (int) posY, (int) (x + posX), (int) (y + posY));
 
-		if (this.child == null) {
-			Frame.valuesX.add(x + offsetX);
-			Frame.valuesY.add(y + offsetY);
-			if (Frame.valuesX.size() > Frame.cycleSize) {
-				Frame.valuesX.remove(0);
-			}
-			if (Frame.valuesY.size() > Frame.cycleSize) {
-				Frame.valuesY.remove(0);
-			}
-		} else {
-			child.offsetX = x + offsetX;
-			child.offsetY = y + offsetY;
-			child.drawCycle(g2D, xVal);
+			posX += x;
+			posY += y;
+		} while ((cycle = cycle.child) != null);
+
+		Frame.valuesX.add(posX);
+		Frame.valuesY.add(posY);
+		if (Frame.valuesX.size() > Frame.cycleSize) {
+			Frame.valuesX.remove(0);
+		}
+		if (Frame.valuesY.size() > Frame.cycleSize) {
+			Frame.valuesY.remove(0);
 		}
 	}
 }
