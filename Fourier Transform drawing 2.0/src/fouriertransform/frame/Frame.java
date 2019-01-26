@@ -52,13 +52,13 @@ public class Frame extends JPanel implements ActionListener, ChangeListener {
 	public static ArrayList<Double> valuesX;
 	public static ArrayList<Double> valuesY;
 	public static ArrayList<Cycle> cycles;
-	
+
 	public JSlider cyclesSlider;
 
 	private void init() {
 
 		this.setLayout(null);
-		
+
 		cyclesSlider = new JSlider(JSlider.HORIZONTAL, 1, 20, 20);
 		cyclesSlider.addChangeListener(this);
 		cyclesSlider.setLocation(20, 600);
@@ -118,16 +118,22 @@ public class Frame extends JPanel implements ActionListener, ChangeListener {
 		}
 
 		for (int i = 1; i < valuesX.size() && i < valuesY.size(); i++) {
-			double x = valuesX.get(i);
-			double lx = valuesX.get(i - 1);
-			double y = valuesY.get(i);
-			double ly = valuesY.get(i - 1);
+			double x = Math.round(valuesX.get(i));
+			double lx =  Math.round(valuesX.get(i - 1));
+			double y =  Math.round(valuesY.get(i));
+			double ly =  Math.round(valuesY.get(i - 1));
 			g2D.drawLine((int) lx, (int) ly, (int) x, (int) y);
+		}
+		
+		if (valuesX.size() > 1 && valuesY.size() > 1) {
+			g2D.setColor(new Color(255, 0, 0, 126));
+			g2D.setColor(Color.BLACK);
+			g2D.fillOval((int) ((double) valuesX.get(valuesX.size() - 1)) - 3, (int) ((double) valuesY.get(valuesY.size() - 1)) - 3, 6, 6);
 		}
 	}
 
-	
 	public static int cycleSize = 0;
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (cycleSize > 0) {
@@ -140,9 +146,9 @@ public class Frame extends JPanel implements ActionListener, ChangeListener {
 		}
 		repaint();
 	}
-	
+
 	public ArrayList<double[]> fourier;
-	
+
 	public void calcFourier() {
 		if (drawingX.size() % 2 != 0) {
 			drawingX.remove(0);
